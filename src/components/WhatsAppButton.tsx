@@ -1,12 +1,12 @@
 import { MessageCircle } from 'lucide-react';
+import { SITE_WHATSAPP_NUMBER } from '../constants/site';
 
 export default function WhatsAppButton() {
-  const whatsappNumber = '918125752562';
   const message = encodeURIComponent('Hi, I would like to know more about IIECM courses and programs.');
 
   return (
     <a
-      href={`https://wa.me/${whatsappNumber}?text=${message}`}
+      href={`https://wa.me/${SITE_WHATSAPP_NUMBER}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-24 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all hover:scale-110 z-50 group"

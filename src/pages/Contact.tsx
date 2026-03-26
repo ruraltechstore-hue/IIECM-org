@@ -7,6 +7,7 @@ import {
   SITE_EMAIL,
   SITE_PHONE,
   SITE_PHONE_TEL,
+  SITE_WHATSAPP_NUMBER,
 } from '../constants/site';
 
 export default function Contact() {
@@ -111,7 +112,7 @@ export default function Contact() {
                       <h3 className="font-semibold text-gray-900 mb-1">WhatsApp Support</h3>
                       <p className="text-gray-600 mb-2">Chat with our team for instant support</p>
                       <a
-                        href="https://wa.me/918125752562"
+                        href={`https://wa.me/${SITE_WHATSAPP_NUMBER}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"

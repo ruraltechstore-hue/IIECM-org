@@ -8,5 +8,7 @@ export const LEGAL_ENTITY_NAME =
   'IIECM (International Institute of E-Commerce and Management Foundation)';
 
 export const SITE_EMAIL = 'support@iiecm.com';
-export const SITE_PHONE = '+91 8125752562';
-export const SITE_PHONE_TEL = '+918125752562';
+/** Digits only (country code + number) for https://wa.me/… */
+export const SITE_WHATSAPP_NUMBER = '919110722088';
+export const SITE_PHONE = '+91 9110722088';
+export const SITE_PHONE_TEL = `+${SITE_WHATSAPP_NUMBER}`;
