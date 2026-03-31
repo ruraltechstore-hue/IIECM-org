@@ -20,7 +20,7 @@ export interface Course {
   price: number;
   duration: string | null;
   mode: string;
-  /** Optional demo reviews (not loaded from Supabase). */
+  /** Optional demo reviews (static / bundled data). */
   reviews?: CourseReview[];
 }
 

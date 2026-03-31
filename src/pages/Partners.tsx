@@ -1,48 +1,7 @@
-import { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { Link } from 'react-router-dom';
 import { Users, Building, TrendingUp, CheckCircle } from 'lucide-react';
 
-type PartnerType = 'counsellor' | 'franchisee' | 'affiliate';
-
 export default function Partners() {
-  const [selectedType, setSelectedType] = useState<PartnerType | null>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    message: ''
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedType) return;
-
-    setSubmitting(true);
-    setSubmitMessage('');
-
-    try {
-      const { error } = await supabase
-        .from('partner_applications')
-        .insert([{
-          partner_type: selectedType,
-          ...formData
-        }]);
-
-      if (error) throw error;
-
-      setSubmitMessage('Thank you! Your application has been submitted. Our team will contact you soon.');
-      setFormData({ name: '', email: '', mobile: '', message: '' });
-      setSelectedType(null);
-    } catch (error) {
-      console.error('Error submitting application:', error);
-      setSubmitMessage('Something went wrong. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <div>
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 md:py-20">
@@ -106,15 +65,12 @@ export default function Partners() {
                 </p>
               </div>
 
-              <button
-                onClick={() => {
-                  setSelectedType('counsellor');
-                  document.getElementById('partner-form')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              <Link
+                to="/contact"
+                className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
               >
                 Apply as Counsellor
-              </button>
+              </Link>
             </div>
 
             <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl border-2 border-green-300 shadow-lg">
@@ -168,15 +124,12 @@ export default function Partners() {
                 </p>
               </div>
 
-              <button
-                onClick={() => {
-                  setSelectedType('franchisee');
-                  document.getElementById('partner-form')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+              <Link
+                to="/contact"
+                className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
               >
                 Apply as Franchisee
-              </button>
+              </Link>
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl border-2 border-purple-300 shadow-lg">
@@ -225,113 +178,16 @@ export default function Partners() {
                 </p>
               </div>
 
-              <button
-                onClick={() => {
-                  setSelectedType('affiliate');
-                  document.getElementById('partner-form')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
+              <Link
+                to="/contact"
+                className="inline-block bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
               >
                 Join Affiliate Program
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
-
-      {selectedType && (
-        <section className="py-16 bg-gray-50" id="partner-form">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Apply as {selectedType === 'counsellor' ? 'Admission Counsellor' : selectedType === 'franchisee' ? 'Franchisee' : 'Affiliate'} Partner
-                </h2>
-                <p className="text-gray-600">Fill out the form below and our team will get in touch with you.</p>
-              </div>
-
-              <div className="bg-white p-8 rounded-2xl shadow-lg">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Mobile Number
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={formData.mobile}
-                      onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message / Tell Us About Yourself
-                    </label>
-                    <textarea
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      placeholder="Tell us about your background, experience, and why you want to partner with IIECM..."
-                    ></textarea>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="flex-1 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
-                    >
-                      {submitting ? 'Submitting...' : 'Submit Application'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedType(null)}
-                      className="px-8 py-4 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-
-                  {submitMessage && (
-                    <p className={`text-center ${submitMessage.includes('Thank') ? 'text-green-600' : 'text-red-600'}`}>
-                      {submitMessage}
-                    </p>
-                  )}
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">

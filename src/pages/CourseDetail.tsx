@@ -1,6 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { sendInquiryNotification } from '../lib/emailjs';
+import {
+  inquiryInputClass,
+  validateInquiryForm,
+  type InquiryFieldErrors,
+} from '../lib/validateInquiryForm';
 import { getCourseBySlug } from '../data/courses';
 import { courseCoverPath } from '../types/course';
 import { Clock, IndianRupee, Award, Star, ChevronDown, ChevronUp } from 'lucide-react';
@@ -19,6 +24,16 @@ export default function CourseDetail() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
+
+  const clearFieldError = (key: 'name' | 'email' | 'mobile' | 'message') => {
+    setFieldErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
 
   const faqs = [
     {
@@ -41,21 +56,44 @@ export default function CourseDetail() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
+    if (!course) return;
     setSubmitMessage('');
 
-    try {
-      const { error } = await supabase
-        .from('inquiries')
-        .insert([{
-          ...formData,
-          course_name: course?.title
-        }]);
+    const { valid, errors, sanitized } = validateInquiryForm(formData, { requireMessage: false });
+    if (!valid || !sanitized) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
 
-      if (error) throw error;
+    setSubmitting(true);
+
+    try {
+      try {
+        const courseLine = `Course: ${course.title}`;
+        const body =
+          sanitized.message !== ''
+            ? `${courseLine}\n\n${sanitized.message}`
+            : courseLine;
+        await sendInquiryNotification({
+          title: 'Website contact',
+          name: sanitized.name,
+          email: sanitized.email,
+          mobile: sanitized.mobile,
+          message: body,
+        });
+      } catch (emailErr: unknown) {
+        const e = emailErr as { status?: number; text?: string };
+        console.error(
+          'EmailJS notification failed:',
+          e?.status ?? 'unknown status',
+          e?.text ?? emailErr
+        );
+      }
 
       setSubmitMessage('Thank you! We will contact you soon.');
       setFormData({ name: '', email: '', mobile: '', message: '' });
+      setFieldErrors({});
     } catch (error) {
       console.error('Error submitting inquiry:', error);
       setSubmitMessage('Something went wrong. Please try again.');
@@ -240,45 +278,97 @@ export default function CourseDetail() {
 
             <div className="bg-gray-50 p-8 rounded-2xl">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Need Help or Bulk Enrollment?</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course-inquiry-name">
+                    Name
+                  </label>
                   <input
+                    id="course-inquiry-name"
                     type="text"
-                    required
+                    autoComplete="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      clearFieldError('name');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.name)}
+                    aria-describedby={fieldErrors.name ? 'err-course-inquiry-name' : undefined}
+                    className={inquiryInputClass(Boolean(fieldErrors.name))}
                   />
+                  {fieldErrors.name && (
+                    <p id="err-course-inquiry-name" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.name}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course-inquiry-email">
+                    Email
+                  </label>
                   <input
+                    id="course-inquiry-email"
                     type="email"
-                    required
+                    autoComplete="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      clearFieldError('email');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.email)}
+                    aria-describedby={fieldErrors.email ? 'err-course-inquiry-email' : undefined}
+                    className={inquiryInputClass(Boolean(fieldErrors.email))}
                   />
+                  {fieldErrors.email && (
+                    <p id="err-course-inquiry-email" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.email}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Mobile</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course-inquiry-mobile">
+                    Mobile
+                  </label>
                   <input
+                    id="course-inquiry-mobile"
                     type="tel"
-                    required
+                    autoComplete="tel"
                     value={formData.mobile}
-                    onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    onChange={(e) => {
+                      setFormData({ ...formData, mobile: e.target.value });
+                      clearFieldError('mobile');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.mobile)}
+                    aria-describedby={fieldErrors.mobile ? 'err-course-inquiry-mobile' : undefined}
+                    className={inquiryInputClass(Boolean(fieldErrors.mobile))}
                   />
+                  {fieldErrors.mobile && (
+                    <p id="err-course-inquiry-mobile" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.mobile}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course-inquiry-message">
+                    Message <span className="text-gray-500 font-normal">(optional)</span>
+                  </label>
                   <textarea
+                    id="course-inquiry-message"
                     rows={4}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      clearFieldError('message');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.message)}
+                    aria-describedby={fieldErrors.message ? 'err-course-inquiry-message' : undefined}
+                    className={inquiryInputClass(Boolean(fieldErrors.message))}
                   ></textarea>
+                  {fieldErrors.message && (
+                    <p id="err-course-inquiry-message" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.message}
+                    </p>
+                  )}
                 </div>
                 <button
                   type="submit"
