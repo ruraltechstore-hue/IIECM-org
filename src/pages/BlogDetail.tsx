@@ -1,48 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { getBlogBySlug } from '../data/blogs';
 import { Calendar, User, ArrowLeft, Share2 } from 'lucide-react';
-
-interface Blog {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  category: string;
-  published_at: string;
-}
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const [blog, setBlog] = useState<Blog | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (slug) {
-      fetchBlog();
-    }
-  }, [slug]);
-
-  const fetchBlog = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('blogs')
-        .select('*')
-        .eq('slug', slug)
-        .eq('published', true)
-        .maybeSingle();
-
-      if (error) throw error;
-      setBlog(data);
-    } catch (error) {
-      console.error('Error fetching blog:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const blog = useMemo(() => getBlogBySlug(slug), [slug]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -61,14 +24,6 @@ export default function BlogDetail() {
       alert('Link copied to clipboard!');
     }
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
 
   if (!blog) {
     return (

@@ -19,7 +19,7 @@ export default function CookiePolicy() {
           <p>{LEGAL_ENTITY_NAME} uses cookies and similar technologies to:</p>
           <ul className={policyListClass}>
             <li>Improve website functionality and user experience</li>
-            <li>Remember your login credentials and preferences</li>
+            <li>Remember your preferences where applicable</li>
             <li>Track usage analytics to understand how our website is used</li>
             <li>Personalize learning recommendations based on your interests</li>
             <li>Maintain security and prevent fraud</li>
@@ -34,7 +34,6 @@ export default function CookiePolicy() {
                 These cookies are necessary for the website to function properly. They enable core functionality such as security, network management, and accessibility. You cannot opt-out of essential cookies.
               </p>
               <ul className={policyListClass}>
-                <li>Authentication cookies (to keep you logged in)</li>
                 <li>Security cookies (to protect against fraud)</li>
                 <li>Session cookies (to maintain your browsing session)</li>
               </ul>
@@ -113,7 +112,7 @@ export default function CookiePolicy() {
             <li>Some features of our website may not function properly</li>
             <li>You may need to manually enter information repeatedly</li>
             <li>Your user experience may be less personalized</li>
-            <li>LMS functionality may be affected</li>
+            <li>Some embedded content or third-party features may not work as expected</li>
           </ul>
         </PolicySection>
 

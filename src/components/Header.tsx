@@ -1,17 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, GraduationCap, LogOut, LayoutDashboard } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, GraduationCap } from 'lucide-react';
 import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut, loading } = useAuth();
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -36,34 +28,6 @@ export default function Header() {
             <Link to="/partners" className="text-gray-700 hover:text-blue-600 transition">Partners</Link>
             <Link to="/blogs" className="text-gray-700 hover:text-blue-600 transition">Blogs</Link>
             <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition">Contact</Link>
-            {!loading && user ? (
-              <>
-                <Link
-                  to="/lms/dashboard"
-                  className="inline-flex items-center gap-1 text-gray-700 hover:text-blue-600 transition"
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  Dashboard
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => void handleSignOut()}
-                  className="inline-flex items-center gap-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/signup" className="text-gray-700 hover:text-blue-600 transition font-medium">
-                  Sign up
-                </Link>
-                <Link to="/login" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                  Login
-                </Link>
-              </>
-            )}
           </nav>
 
           <button
@@ -88,30 +52,6 @@ export default function Header() {
               <Link to="/partners" className="text-gray-700 hover:text-blue-600 transition" onClick={closeMenu}>Partners</Link>
               <Link to="/blogs" className="text-gray-700 hover:text-blue-600 transition" onClick={closeMenu}>Blogs</Link>
               <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition" onClick={closeMenu}>Contact</Link>
-              {!loading && user ? (
-                <>
-                  <Link to="/lms/dashboard" className="text-gray-700 hover:text-blue-600 transition flex items-center gap-2" onClick={closeMenu}>
-                    <LayoutDashboard className="w-4 h-4" />
-                    Dashboard
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      closeMenu();
-                      void handleSignOut();
-                    }}
-                    className="text-left text-gray-700 hover:text-blue-600 transition flex items-center gap-2"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Sign out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/signup" className="text-gray-700 hover:text-blue-600 transition font-medium" onClick={closeMenu}>Sign up</Link>
-                  <Link to="/login" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center" onClick={closeMenu}>Login</Link>
-                </>
-              )}
             </div>
           </nav>
         )}

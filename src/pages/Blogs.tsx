@@ -1,21 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { getBlogsByCategory } from '../data/blogs';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 
-interface Blog {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  author: string;
-  category: string;
-  published_at: string;
-}
-
 export default function Blogs() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = [
@@ -26,36 +14,13 @@ export default function Blogs() {
     'Digital Marketing',
     'Data Science & Analytics',
     'Technology',
-    'Education'
+    'Education',
   ];
 
-  useEffect(() => {
-    fetchBlogs();
-  }, [selectedCategory]);
-
-  const fetchBlogs = async () => {
-    setLoading(true);
-    try {
-      let query = supabase
-        .from('blogs')
-        .select('*')
-        .eq('published', true)
-        .order('published_at', { ascending: false });
-
-      if (selectedCategory !== 'all') {
-        query = query.eq('category', selectedCategory);
-      }
-
-      const { data, error } = await query;
-
-      if (error) throw error;
-      setBlogs(data || []);
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const blogs = useMemo(
+    () => getBlogsByCategory(selectedCategory === 'all' ? 'all' : selectedCategory),
+    [selectedCategory]
+  );
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -95,64 +60,57 @@ export default function Blogs() {
             </div>
           </div>
 
-          {loading ? (
-            <div className="text-center py-16">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-              <p className="mt-4 text-gray-600">Loading blogs...</p>
-            </div>
-          ) : (
-            <div className="max-w-7xl mx-auto">
-              {blogs.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {blogs.map((blog) => (
-                    <article
-                      key={blog.id}
-                      className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 overflow-hidden"
-                    >
-                      <div className="bg-gradient-to-br from-blue-500 to-blue-600 h-48 flex items-center justify-center">
-                        <div className="text-white text-center p-6">
-                          <div className="text-sm font-semibold mb-2 bg-white/20 inline-block px-3 py-1 rounded-full">
-                            {blog.category}
-                          </div>
+          <div className="max-w-7xl mx-auto">
+            {blogs.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogs.map((blog) => (
+                  <article
+                    key={blog.id}
+                    className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 overflow-hidden"
+                  >
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 h-48 flex items-center justify-center">
+                      <div className="text-white text-center p-6">
+                        <div className="text-sm font-semibold mb-2 bg-white/20 inline-block px-3 py-1 rounded-full">
+                          {blog.category}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-6">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600">
+                        <Link to={`/blogs/${blog.slug}`}>{blog.title}</Link>
+                      </h2>
+
+                      <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
+
+                      <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                        <div className="flex items-center">
+                          <User className="w-4 h-4 mr-1" />
+                          <span>{blog.author}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          <span>{formatDate(blog.published_at)}</span>
                         </div>
                       </div>
 
-                      <div className="p-6">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600">
-                          <Link to={`/blogs/${blog.slug}`}>{blog.title}</Link>
-                        </h2>
-
-                        <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
-
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center">
-                            <User className="w-4 h-4 mr-1" />
-                            <span>{blog.author}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-1" />
-                            <span>{formatDate(blog.published_at)}</span>
-                          </div>
-                        </div>
-
-                        <Link
-                          to={`/blogs/${blog.slug}`}
-                          className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition"
-                        >
-                          Read More
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Link>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-gray-600 text-lg">No blogs found in this category.</p>
-                </div>
-              )}
-            </div>
-          )}
+                      <Link
+                        to={`/blogs/${blog.slug}`}
+                        className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition"
+                      >
+                        Read More
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <p className="text-gray-600 text-lg">No blogs found in this category.</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 

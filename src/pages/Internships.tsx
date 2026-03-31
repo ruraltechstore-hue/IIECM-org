@@ -1,34 +1,73 @@
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { sendInternshipInquiryNotification } from '../lib/emailjs';
+import {
+  validateInternshipForm,
+  type InternshipFieldErrors,
+  type InternshipFormState,
+} from '../lib/validateInternshipForm';
 import { Award, CheckCircle, Sparkles, BookOpen, IndianRupee } from 'lucide-react';
 
+function fieldErrorClass(hasError: boolean) {
+  return `w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+    hasError ? 'border-red-500' : 'border-gray-300'
+  }`;
+}
+
 export default function Internships() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<InternshipFormState>({
     institution_name: '',
     contact_person: '',
     email: '',
     mobile: '',
     number_of_students: '',
-    preferred_stage: 'stage1' as 'stage1' | 'stage2' | 'stage3',
+    preferred_stage: 'stage1',
     message: ''
   });
+  const [fieldErrors, setFieldErrors] = useState<InternshipFieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
+  const clearFieldError = (key: keyof InternshipFormState) => {
+    setFieldErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
     setSubmitMessage('');
 
-    try {
-      const { error } = await supabase
-        .from('internship_inquiries')
-        .insert([{
-          ...formData,
-          number_of_students: parseInt(formData.number_of_students)
-        }]);
+    const { valid, errors, sanitized } = validateInternshipForm(formData);
+    if (!valid || !sanitized) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
 
-      if (error) throw error;
+    setSubmitting(true);
+
+    try {
+      try {
+        await sendInternshipInquiryNotification({
+          institution_name: sanitized.institution_name,
+          contact_person: sanitized.contact_person,
+          email: sanitized.email,
+          mobile: sanitized.mobile,
+          number_of_students: sanitized.number_of_students,
+          preferred_stage: sanitized.preferred_stage,
+          message: sanitized.message,
+        });
+      } catch (emailErr: unknown) {
+        const e = emailErr as { status?: number; text?: string };
+        console.error(
+          'EmailJS internship notification failed:',
+          e?.status ?? 'unknown status',
+          e?.text ?? emailErr
+        );
+      }
 
       setSubmitMessage('Thank you! Our team will contact you within 24-48 working hours with pricing & onboarding details.');
       setFormData({
@@ -302,103 +341,178 @@ export default function Internships() {
             </div>
 
             <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-institution">
                     Institution / College Name
                   </label>
                   <input
+                    id="internship-institution"
                     type="text"
-                    required
+                    autoComplete="organization"
                     value={formData.institution_name}
-                    onChange={(e) => setFormData({ ...formData, institution_name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    onChange={(e) => {
+                      setFormData({ ...formData, institution_name: e.target.value });
+                      clearFieldError('institution_name');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.institution_name)}
+                    aria-describedby={fieldErrors.institution_name ? 'err-internship-institution' : undefined}
+                    className={fieldErrorClass(Boolean(fieldErrors.institution_name))}
                   />
+                  {fieldErrors.institution_name && (
+                    <p id="err-internship-institution" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.institution_name}
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-contact">
                     Contact Person Name
                   </label>
                   <input
+                    id="internship-contact"
                     type="text"
-                    required
+                    autoComplete="name"
                     value={formData.contact_person}
-                    onChange={(e) => setFormData({ ...formData, contact_person: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    onChange={(e) => {
+                      setFormData({ ...formData, contact_person: e.target.value });
+                      clearFieldError('contact_person');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.contact_person)}
+                    aria-describedby={fieldErrors.contact_person ? 'err-internship-contact' : undefined}
+                    className={fieldErrorClass(Boolean(fieldErrors.contact_person))}
                   />
+                  {fieldErrors.contact_person && (
+                    <p id="err-internship-contact" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.contact_person}
+                    </p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-email">
                       Email ID
                     </label>
                     <input
+                      id="internship-email"
                       type="email"
-                      required
+                      autoComplete="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      onChange={(e) => {
+                        setFormData({ ...formData, email: e.target.value });
+                        clearFieldError('email');
+                      }}
+                      aria-invalid={Boolean(fieldErrors.email)}
+                      aria-describedby={fieldErrors.email ? 'err-internship-email' : undefined}
+                      className={fieldErrorClass(Boolean(fieldErrors.email))}
                     />
+                    {fieldErrors.email && (
+                      <p id="err-internship-email" className="mt-1 text-sm text-red-600" role="alert">
+                        {fieldErrors.email}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-mobile">
                       Mobile Number
                     </label>
                     <input
+                      id="internship-mobile"
                       type="tel"
-                      required
+                      autoComplete="tel"
                       value={formData.mobile}
-                      onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      onChange={(e) => {
+                        setFormData({ ...formData, mobile: e.target.value });
+                        clearFieldError('mobile');
+                      }}
+                      aria-invalid={Boolean(fieldErrors.mobile)}
+                      aria-describedby={fieldErrors.mobile ? 'err-internship-mobile' : undefined}
+                      className={fieldErrorClass(Boolean(fieldErrors.mobile))}
                     />
+                    {fieldErrors.mobile && (
+                      <p id="err-internship-mobile" className="mt-1 text-sm text-red-600" role="alert">
+                        {fieldErrors.mobile}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-count">
                       Number of Students
                     </label>
                     <input
+                      id="internship-count"
                       type="number"
-                      required
-                      min="1"
+                      inputMode="numeric"
                       value={formData.number_of_students}
-                      onChange={(e) => setFormData({ ...formData, number_of_students: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      onChange={(e) => {
+                        setFormData({ ...formData, number_of_students: e.target.value });
+                        clearFieldError('number_of_students');
+                      }}
+                      aria-invalid={Boolean(fieldErrors.number_of_students)}
+                      aria-describedby={fieldErrors.number_of_students ? 'err-internship-count' : undefined}
+                      className={fieldErrorClass(Boolean(fieldErrors.number_of_students))}
                     />
+                    {fieldErrors.number_of_students && (
+                      <p id="err-internship-count" className="mt-1 text-sm text-red-600" role="alert">
+                        {fieldErrors.number_of_students}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-stage">
                       Preferred Internship Stage
                     </label>
                     <select
-                      required
+                      id="internship-stage"
                       value={formData.preferred_stage}
-                      onChange={(e) => setFormData({ ...formData, preferred_stage: e.target.value as 'stage1' | 'stage2' | 'stage3' })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      onChange={(e) => {
+                        setFormData({ ...formData, preferred_stage: e.target.value as 'stage1' | 'stage2' | 'stage3' });
+                        clearFieldError('preferred_stage');
+                      }}
+                      aria-invalid={Boolean(fieldErrors.preferred_stage)}
+                      aria-describedby={fieldErrors.preferred_stage ? 'err-internship-stage' : undefined}
+                      className={fieldErrorClass(Boolean(fieldErrors.preferred_stage))}
                     >
                       <option value="stage1">Stage 1 - Basic (₹1,000)</option>
                       <option value="stage2">Stage 2 - With AI (₹2,500)</option>
                       <option value="stage3">Stage 3 - Advanced (Custom Pricing)</option>
                     </select>
+                    {fieldErrors.preferred_stage && (
+                      <p id="err-internship-stage" className="mt-1 text-sm text-red-600" role="alert">
+                        {fieldErrors.preferred_stage}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message / Requirements
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="internship-message">
+                    Message / Requirements <span className="text-gray-500 font-normal">(optional)</span>
                   </label>
                   <textarea
+                    id="internship-message"
                     rows={4}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  ></textarea>
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      clearFieldError('message');
+                    }}
+                    aria-invalid={Boolean(fieldErrors.message)}
+                    aria-describedby={fieldErrors.message ? 'err-internship-message' : undefined}
+                    className={fieldErrorClass(Boolean(fieldErrors.message))}
+                  />
+                  {fieldErrors.message && (
+                    <p id="err-internship-message" className="mt-1 text-sm text-red-600" role="alert">
+                      {fieldErrors.message}
+                    </p>
+                  )}
                 </div>
 
                 <button
