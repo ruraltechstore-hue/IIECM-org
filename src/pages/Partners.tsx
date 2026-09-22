@@ -28,7 +28,7 @@ export default function Partners() {
               </div>
 
               <div className="bg-white p-4 rounded-lg mb-6 border-2 border-blue-400">
-                <p className="text-2xl font-bold text-blue-600">Investment: ₹10,000</p>
+                <p className="text-2xl font-bold text-blue-600">Investment: ₹25,000</p>
                 <p className="text-sm text-gray-600 mt-1">One-time partnership fee</p>
               </div>
 
@@ -83,7 +83,7 @@ export default function Partners() {
               </div>
 
               <div className="bg-white p-4 rounded-lg mb-6 border-2 border-green-400">
-                <p className="text-2xl font-bold text-green-600">Investment: ₹25,000</p>
+                <p className="text-2xl font-bold text-green-600">Investment: ₹50,000</p>
                 <p className="text-sm text-gray-600 mt-1">One-time franchise fee</p>
               </div>
 
@@ -139,6 +139,11 @@ export default function Partners() {
                   <h2 className="text-3xl font-bold text-gray-900">Affiliate Partner</h2>
                   <p className="text-purple-700">Promote courses online and earn per sale</p>
                 </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg mb-6 border-2 border-purple-400">
+                <p className="text-2xl font-bold text-purple-600">Investment: ₹1,00,000</p>
+                <p className="text-sm text-gray-600 mt-1">One-time affiliate fee</p>
               </div>
 
               <div className="mb-6">
