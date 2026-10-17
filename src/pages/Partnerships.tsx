@@ -9,12 +9,16 @@ export default function Partnerships() {
 
   return (
     <div>
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 md:py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-slate-900 text-white py-16 md:py-20 border-b border-slate-800 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Partnerships & Collaborations</h1>
-            <p className="text-xl text-blue-100">
-              Building bridges between education, industry, and opportunity
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 text-amber-300 font-semibold text-xs mb-6 border border-slate-700">
+              <Building2 className="w-3.5 h-3.5 text-amber-400" />
+              <span>Academic &amp; Corporate Collaborations</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">Our Partnerships &amp; Collaborations</h1>
+            <p className="text-base md:text-xl text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed">
+              Fostering synergistic ties between higher education, corporate enterprises, and student career outcomes.
             </p>
           </div>
         </div>
@@ -33,10 +37,10 @@ export default function Partnerships() {
             </div>
 
             <div className="space-y-12">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl border-2 border-blue-300 shadow-lg">
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-100/70 p-8 rounded-3xl border-2 border-amber-300 shadow-lg">
                 <div className="flex items-center mb-6">
-                  <GraduationCap className="w-12 h-12 text-blue-600 mr-4" />
-                  <h2 className="text-3xl font-bold text-gray-900">Government & Educational Partnerships</h2>
+                  <GraduationCap className="w-12 h-12 text-amber-600 mr-4" />
+                  <h2 className="text-3xl font-black text-stone-900">Government & Educational Partnerships</h2>
                 </div>
 
                 <div className="space-y-6">
@@ -49,15 +53,15 @@ export default function Partnerships() {
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>Providing <strong>internship opportunities</strong> to students</span>
                       </li>
                       <li className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>Supporting <strong>academic internship requirements</strong></span>
                       </li>
                       <li className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>Enhancing <strong>industry exposure</strong> for higher education students</span>
                       </li>
                     </ul>
@@ -75,15 +79,15 @@ export default function Partnerships() {
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>Internship programs for technical & non-technical students</span>
                       </li>
                       <li className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>Skill-based training and certification</span>
                       </li>
                       <li className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>LMS-based internship tracking and completion support</span>
                       </li>
                     </ul>
@@ -159,42 +163,42 @@ export default function Partnerships() {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Practical Internships</h3>
                       <p className="text-gray-600">Deliver hands-on learning experiences</p>
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Student Employability</h3>
                       <p className="text-gray-600">Enhance career readiness and skills</p>
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Academic Compliance</h3>
                       <p className="text-gray-600">Support institutional requirements</p>
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Real-World Skills</h3>
                       <p className="text-gray-600">Enable practical skill development</p>
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Career-Ready Professionals</h3>
                       <p className="text-gray-600">Create industry-ready graduates</p>
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Industry Alignment</h3>
                       <p className="text-gray-600">Bridge education and employment</p>
@@ -226,16 +230,16 @@ export default function Partnerships() {
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Join our network of educational institutions and industry partners committed to student success.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href="/contact"
-              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition text-lg"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-7 py-3 rounded-lg font-semibold transition shadow-sm text-sm"
             >
               Get in Touch
             </a>
             <a
               href="/partners"
-              className="bg-transparent text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition text-lg border-2 border-blue-600"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 px-7 py-3 rounded-lg font-semibold transition text-sm"
             >
               Become a Partner
             </a>

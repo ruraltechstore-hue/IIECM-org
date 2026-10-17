@@ -5,7 +5,7 @@ import {
   validateInquiryForm,
   type InquiryFieldErrors,
 } from '../lib/validateInquiryForm';
-import { MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle, Sun, Sparkles, Send } from 'lucide-react';
 import {
   LEGAL_ENTITY_NAME,
   SITE_ADDRESS_LINES,
@@ -78,34 +78,41 @@ export default function Contact() {
   };
 
   return (
-    <div>
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 md:py-20">
-        <div className="container mx-auto px-4">
+    <div className="bg-stone-50">
+      <section className="relative bg-slate-900 text-white py-16 md:py-20 border-b border-slate-800 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-            <p className="text-xl text-blue-100">
-              We're here to help. Get in touch with us today.
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 text-amber-300 font-semibold text-xs mb-6 border border-slate-700">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Admissions &amp; Academic Inquiries</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">Contact Us</h1>
+            <p className="text-base md:text-xl text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed">
+              Connect with our academic counseling team for curriculum inquiries, admission guidelines, and institutional partnerships.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">Get In Touch</h2>
+                <h2 className="text-3xl font-black text-stone-900 mb-8 flex items-center gap-2">
+                  <Sparkles className="w-6 h-6 text-amber-500" />
+                  Get In Touch
+                </h2>
 
                 <div className="space-y-6 mb-8">
                   <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-lg">
-                      <MapPin className="w-6 h-6 text-blue-600" />
+                    <div className="bg-amber-100 p-3.5 rounded-2xl text-amber-700">
+                      <MapPin className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
-                      <p className="text-sm font-medium text-gray-800 mb-1">{LEGAL_ENTITY_NAME}</p>
-                      <p className="text-gray-600">
+                      <h3 className="font-bold text-stone-900 mb-1">Address</h3>
+                      <p className="text-sm font-semibold text-stone-800 mb-1">{LEGAL_ENTITY_NAME}</p>
+                      <p className="text-stone-600 text-sm leading-relaxed">
                         {SITE_ADDRESS_LINES.map((line) => (
                           <span key={line} className="block">
                             {line}
@@ -116,62 +123,70 @@ export default function Contact() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-lg">
-                      <Phone className="w-6 h-6 text-blue-600" />
+                    <div className="bg-amber-100 p-3.5 rounded-2xl text-amber-700">
+                      <Phone className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Call / WhatsApp</h3>
-                      <a href={`tel:${SITE_PHONE_TEL}`} className="text-blue-600 hover:underline">
+                      <h3 className="font-bold text-stone-900 mb-1">Call Desk</h3>
+                      <a href={`tel:${SITE_PHONE_TEL}`} className="text-amber-700 font-bold hover:underline text-sm">
                         {SITE_PHONE}
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-lg">
-                      <Mail className="w-6 h-6 text-blue-600" />
+                    <div className="bg-amber-100 p-3.5 rounded-2xl text-amber-700">
+                      <Mail className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                      <a href={`mailto:${SITE_EMAIL}`} className="text-blue-600 hover:underline">
+                      <h3 className="font-bold text-stone-900 mb-1">Email Support</h3>
+                      <a href={`mailto:${SITE_EMAIL}`} className="text-amber-700 font-bold hover:underline text-sm break-all">
                         {SITE_EMAIL}
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-lg">
-                      <MessageCircle className="w-6 h-6 text-blue-600" />
+                    <div className="bg-emerald-100 p-3.5 rounded-2xl text-emerald-700">
+                      <MessageCircle className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">WhatsApp Support</h3>
-                      <p className="text-gray-600 mb-2">Chat with our team for instant support</p>
+                      <h3 className="font-bold text-stone-900 mb-1">WhatsApp Instant Support</h3>
+                      <p className="text-stone-600 text-sm mb-2">Chat with our team directly on WhatsApp</p>
                       <a
                         href={`https://wa.me/${SITE_WHATSAPP_NUMBER}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                        className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-emerald-700 transition shadow-md"
                       >
-                        Chat on WhatsApp
+                        <MessageCircle className="w-4 h-4" />
+                        <span>Chat on WhatsApp</span>
                       </a>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-                  <h3 className="font-semibold text-gray-900 mb-2">Office Hours</h3>
-                  <p className="text-gray-700">Monday - Saturday: 9:00 AM - 6:00 PM</p>
-                  <p className="text-gray-700">Sunday: Closed</p>
+                <div className="bg-gradient-to-br from-amber-50 to-yellow-100/50 p-6 rounded-3xl border border-amber-200">
+                  <h3 className="font-bold text-stone-900 mb-2">Office & Counseling Hours</h3>
+                  <p className="text-stone-700 text-sm">Monday - Saturday: 9:00 AM - 6:00 PM</p>
+                  <p className="text-stone-700 text-sm">Sunday: Online Inquiry Desk Active</p>
                 </div>
               </div>
 
               <div>
-                <div className="bg-gray-50 p-8 rounded-2xl">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-                  <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                <div className="bg-stone-900 text-white p-8 md:p-10 rounded-3xl border border-amber-500/20 shadow-2xl">
+                  <h2 className="text-2xl font-black text-white mb-2 flex items-center gap-2">
+                    <Sun className="w-5 h-5 text-amber-400" />
+                    Send Us an Inquiry
+                  </h2>
+                  <p className="text-xs text-stone-400 mb-6">
+                    Fill out the form below and an admissions counselor will reach out within 2 business hours.
+                  </p>
+
+                  <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="contact-name">
-                        Your Name
+                      <label className="block text-xs font-bold text-stone-300 mb-1" htmlFor="contact-name">
+                        Your Full Name *
                       </label>
                       <input
                         id="contact-name"
@@ -183,20 +198,19 @@ export default function Contact() {
                           clearFieldError('name');
                         }}
                         aria-invalid={Boolean(fieldErrors.name)}
-                        aria-describedby={fieldErrors.name ? 'err-contact-name' : undefined}
-                        className={inquiryInputClass(Boolean(fieldErrors.name))}
+                        className={`w-full px-4 py-3 rounded-xl bg-stone-950 border text-sm text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
+                          fieldErrors.name ? 'border-red-500' : 'border-stone-800'
+                        }`}
                         placeholder="John Doe"
                       />
                       {fieldErrors.name && (
-                        <p id="err-contact-name" className="mt-1 text-sm text-red-600" role="alert">
-                          {fieldErrors.name}
-                        </p>
+                        <p className="mt-1 text-xs text-red-400">{fieldErrors.name}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="contact-email">
-                        Email Address
+                      <label className="block text-xs font-bold text-stone-300 mb-1" htmlFor="contact-email">
+                        Email Address *
                       </label>
                       <input
                         id="contact-email"
@@ -208,20 +222,19 @@ export default function Contact() {
                           clearFieldError('email');
                         }}
                         aria-invalid={Boolean(fieldErrors.email)}
-                        aria-describedby={fieldErrors.email ? 'err-contact-email' : undefined}
-                        className={inquiryInputClass(Boolean(fieldErrors.email))}
+                        className={`w-full px-4 py-3 rounded-xl bg-stone-950 border text-sm text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
+                          fieldErrors.email ? 'border-red-500' : 'border-stone-800'
+                        }`}
                         placeholder="john@example.com"
                       />
                       {fieldErrors.email && (
-                        <p id="err-contact-email" className="mt-1 text-sm text-red-600" role="alert">
-                          {fieldErrors.email}
-                        </p>
+                        <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="contact-mobile">
-                        Mobile Number
+                      <label className="block text-xs font-bold text-stone-300 mb-1" htmlFor="contact-mobile">
+                        Mobile Number *
                       </label>
                       <input
                         id="contact-mobile"
@@ -233,51 +246,49 @@ export default function Contact() {
                           clearFieldError('mobile');
                         }}
                         aria-invalid={Boolean(fieldErrors.mobile)}
-                        aria-describedby={fieldErrors.mobile ? 'err-contact-mobile' : undefined}
-                        className={inquiryInputClass(Boolean(fieldErrors.mobile))}
+                        className={`w-full px-4 py-3 rounded-xl bg-stone-950 border text-sm text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
+                          fieldErrors.mobile ? 'border-red-500' : 'border-stone-800'
+                        }`}
                         placeholder="+91 1234567890"
                       />
                       {fieldErrors.mobile && (
-                        <p id="err-contact-mobile" className="mt-1 text-sm text-red-600" role="alert">
-                          {fieldErrors.mobile}
-                        </p>
+                        <p className="mt-1 text-xs text-red-400">{fieldErrors.mobile}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="contact-message">
-                        Message
+                      <label className="block text-xs font-bold text-stone-300 mb-1" htmlFor="contact-message">
+                        Message / Program of Interest *
                       </label>
                       <textarea
                         id="contact-message"
-                        rows={5}
+                        rows={4}
                         value={formData.message}
                         onChange={(e) => {
                           setFormData({ ...formData, message: e.target.value });
                           clearFieldError('message');
                         }}
                         aria-invalid={Boolean(fieldErrors.message)}
-                        aria-describedby={fieldErrors.message ? 'err-contact-message' : undefined}
-                        className={inquiryInputClass(Boolean(fieldErrors.message))}
-                        placeholder="How can we help you?"
+                        className={`w-full px-4 py-3 rounded-xl bg-stone-950 border text-sm text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
+                          fieldErrors.message ? 'border-red-500' : 'border-stone-800'
+                        }`}
+                        placeholder="Tell us what course or query you have in mind..."
                       ></textarea>
                       {fieldErrors.message && (
-                        <p id="err-contact-message" className="mt-1 text-sm text-red-600" role="alert">
-                          {fieldErrors.message}
-                        </p>
+                        <p className="mt-1 text-xs text-red-400">{fieldErrors.message}</p>
                       )}
                     </div>
 
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+                      className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-6 rounded-lg font-semibold text-sm shadow-sm hover:shadow transition disabled:opacity-50"
                     >
-                      {submitting ? 'Sending...' : 'Send Message'}
+                      {submitting ? 'Sending...' : 'Submit Inquiry'}
                     </button>
 
                     {submitMessage && (
-                      <p className={`text-center ${submitMessage.includes('Thank') ? 'text-green-600' : 'text-red-600'}`}>
+                      <p className={`text-center text-xs p-3 rounded-xl ${submitMessage.includes('Thank') ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'}`}>
                         {submitMessage}
                       </p>
                     )}
@@ -289,27 +300,25 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-20 bg-amber-50/40">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
-            <p className="text-gray-600 mb-8">
-              Have a question? Check out our{' '}
-              <a href="#" className="text-blue-600 hover:underline">FAQ section</a>{' '}
-              or contact us directly.
+            <h2 className="text-3xl font-black text-stone-900 mb-4">Dedicated Support Desks</h2>
+            <p className="text-stone-600 mb-10 text-sm">
+              Connect directly with our specialized department heads.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-semibold text-gray-900 mb-2">Course Inquiries</h3>
-                <p className="text-gray-600 text-sm">Questions about our programs and enrollments</p>
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-200/60 hover:border-amber-400 transition hover:-translate-y-1">
+                <h3 className="font-bold text-stone-900 mb-2">Course Inquiries</h3>
+                <p className="text-stone-600 text-xs">Questions about curriculums, eligibility, and cohorts</p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-semibold text-gray-900 mb-2">Technical Support</h3>
-                <p className="text-gray-600 text-sm">LMS access and technical assistance</p>
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-200/60 hover:border-amber-400 transition hover:-translate-y-1">
+                <h3 className="font-bold text-stone-900 mb-2">Technical LMS Support</h3>
+                <p className="text-stone-600 text-xs">Student dashboard access and technical assistance</p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-semibold text-gray-900 mb-2">Partnership Opportunities</h3>
-                <p className="text-gray-600 text-sm">Become a counsellor, franchisee, or affiliate</p>
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-amber-200/60 hover:border-amber-400 transition hover:-translate-y-1">
+                <h3 className="font-bold text-stone-900 mb-2">Partnership Programs</h3>
+                <p className="text-stone-600 text-xs">Counselors, franchisees, and institutional tie-ups</p>
               </div>
             </div>
           </div>

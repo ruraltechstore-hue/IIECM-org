@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getBlogBySlug } from '../data/blogs';
-import { Calendar, User, ArrowLeft, Share2 } from 'lucide-react';
+import { Calendar, User, ArrowLeft, Share2, Sun } from 'lucide-react';
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -27,9 +27,10 @@ export default function BlogDetail() {
 
   if (!blog) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Blog Post Not Found</h1>
-        <Link to="/blogs" className="text-blue-600 hover:underline flex items-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-stone-950 text-white">
+        <Sun className="w-12 h-12 text-amber-400 mx-auto mb-4" />
+        <h1 className="text-3xl font-black text-white mb-4">Blog Post Not Found</h1>
+        <Link to="/blogs" className="text-amber-400 hover:underline flex items-center font-bold">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Blogs
         </Link>
@@ -38,39 +39,41 @@ export default function BlogDetail() {
   }
 
   return (
-    <div>
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
-        <div className="container mx-auto px-4">
+    <div className="bg-stone-50">
+      <section className="relative bg-slate-900 text-white py-14 md:py-20 border-b border-slate-800 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
             <Link
               to="/blogs"
-              className="inline-flex items-center text-blue-100 hover:text-white mb-6 transition"
+              className="inline-flex items-center text-slate-300 font-semibold hover:text-white mb-6 transition text-xs sm:text-sm"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blogs
+              Back to All Articles
             </Link>
 
-            <div className="inline-block bg-white/20 px-4 py-1 rounded-full text-sm font-semibold mb-4">
+            <div className="inline-block bg-slate-800 text-amber-300 border border-slate-700 px-3.5 py-1 rounded-full text-xs font-semibold mb-4">
               {blog.category}
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">{blog.title}</h1>
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-5 leading-tight tracking-tight text-white">
+              {blog.title}
+            </h1>
 
-            <div className="flex flex-wrap items-center gap-6 text-blue-100">
+            <div className="flex flex-wrap items-center gap-6 text-slate-300 text-xs sm:text-sm font-medium">
               <div className="flex items-center">
-                <User className="w-5 h-5 mr-2" />
+                <User className="w-4 h-4 mr-2 text-amber-400" />
                 <span>{blog.author}</span>
               </div>
               <div className="flex items-center">
-                <Calendar className="w-5 h-5 mr-2" />
+                <Calendar className="w-4 h-4 mr-2 text-amber-400" />
                 <span>{formatDate(blog.published_at)}</span>
               </div>
               <button
                 onClick={handleShare}
-                className="flex items-center hover:text-white transition"
+                className="flex items-center hover:text-white transition font-semibold text-amber-400 hover:text-amber-300"
               >
-                <Share2 className="w-5 h-5 mr-2" />
-                <span>Share</span>
+                <Share2 className="w-4 h-4 mr-1.5" />
+                <span>Share Article</span>
               </button>
             </div>
           </div>
@@ -80,23 +83,27 @@ export default function BlogDetail() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-gray-700 leading-relaxed mb-8 font-medium">{blog.excerpt}</p>
-              <div className="text-gray-700 leading-relaxed whitespace-pre-line">{blog.content}</div>
+            <div className="prose prose-lg max-w-none text-stone-800">
+              <p className="text-xl text-stone-700 leading-relaxed mb-8 font-medium border-l-4 border-amber-400 pl-4 py-1 italic">
+                {blog.excerpt}
+              </p>
+              <div className="text-stone-700 leading-relaxed whitespace-pre-line text-base md:text-lg">
+                {blog.content}
+              </div>
             </div>
 
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <div className="flex items-center justify-between">
+            <div className="mt-12 pt-8 border-t border-amber-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Written by</p>
-                  <p className="font-semibold text-gray-900">{blog.author}</p>
+                  <p className="text-xs uppercase tracking-wider text-amber-700 font-bold mb-1">Author</p>
+                  <p className="font-extrabold text-stone-900 text-lg">{blog.author}</p>
                 </div>
                 <button
                   onClick={handleShare}
-                  className="flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+                  className="flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg transition shadow-xs text-xs"
                 >
-                  <Share2 className="w-5 h-5 mr-2" />
-                  Share Article
+                  <Share2 className="w-4 h-4" />
+                  <span>Share Article</span>
                 </button>
               </div>
             </div>
@@ -104,24 +111,24 @@ export default function BlogDetail() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-14 bg-slate-50 border-t border-slate-200">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Continue Learning</h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Explore our courses and take the next step in your educational journey.
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Continue Your Educational Roadmap</h2>
+          <p className="text-sm text-slate-600 mb-6 max-w-xl mx-auto">
+            Explore our accredited degree programs and practical skill development courses.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               to="/courses"
-              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition text-lg"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-7 py-3 rounded-lg font-semibold transition shadow-xs text-sm"
             >
-              Browse Courses
+              Browse All Programs
             </Link>
             <Link
               to="/blogs"
-              className="bg-transparent text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition text-lg border-2 border-blue-600"
+              className="bg-white text-slate-800 px-7 py-3 rounded-lg font-semibold hover:bg-slate-50 transition text-sm border border-slate-300 shadow-2xs"
             >
-              Read More Blogs
+              Read More Articles
             </Link>
           </div>
         </div>

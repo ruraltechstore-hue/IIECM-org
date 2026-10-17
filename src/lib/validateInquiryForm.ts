@@ -24,7 +24,7 @@ export type ValidateInquiryOptions = {
 };
 
 export function inquiryInputClass(hasError: boolean): string {
-  return `w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+  return `w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 ${
     hasError ? 'border-red-500' : 'border-gray-300'
   }`;
 }

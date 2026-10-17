@@ -8,7 +8,7 @@ import {
 import { Award, CheckCircle, Sparkles, BookOpen, IndianRupee } from 'lucide-react';
 
 function fieldErrorClass(hasError: boolean) {
-  return `w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+  return `w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 ${
     hasError ? 'border-red-500' : 'border-gray-300'
   }`;
 }
@@ -89,15 +89,16 @@ export default function Internships() {
 
   return (
     <div>
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 md:py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-slate-900 text-white py-16 md:py-20 border-b border-slate-800 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">IIECM Internship Programs</h1>
-            <p className="text-xl text-blue-100 mb-4">
-              3 Stage Model
-            </p>
-            <p className="text-lg text-blue-100">
-              Career-Focused Internship Programs Designed for Students & Institutions
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 text-amber-300 font-semibold text-xs mb-6 border border-slate-700">
+              <Award className="w-3.5 h-3.5 text-amber-400" />
+              <span>AICTE &amp; APSCHE Aligned Pathways</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">IIECM Internship Programs</h1>
+            <p className="text-base md:text-xl text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed">
+              Structured 3-Stage Career Acceleration Model for Students, Colleges, and Working Professionals
             </p>
           </div>
         </div>
@@ -121,53 +122,53 @@ export default function Internships() {
           </div>
 
           <div className="max-w-6xl mx-auto space-y-8">
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl border-2 border-blue-300 shadow-lg">
+            <div className="bg-amber-50/60 p-8 rounded-2xl border border-amber-200 shadow-sm">
               <div className="flex items-center mb-6">
-                <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
+                <div className="bg-amber-600 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg mr-4 shadow-xs">
                   1
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900">Internship Stage 1</h2>
-                  <p className="text-blue-700 font-semibold">Basic Internship Program (Certificate Only)</p>
+                  <h2 className="text-2xl font-bold text-slate-900">Internship Stage 1</h2>
+                  <p className="text-amber-800 font-semibold text-sm">Basic Internship Program (Certificate Only)</p>
                 </div>
               </div>
 
               <div className="mb-6">
                 <div className="flex items-center mb-4">
-                  <IndianRupee className="w-6 h-6 text-blue-600 mr-2" />
-                  <span className="text-3xl font-bold text-blue-600">1,000</span>
-                  <span className="text-gray-600 ml-2">per student</span>
+                  <IndianRupee className="w-5 h-5 text-amber-700 mr-1.5" />
+                  <span className="text-2xl font-bold text-amber-700">1,000</span>
+                  <span className="text-slate-600 ml-2 text-sm font-medium">per student</span>
                 </div>
               </div>
 
               <div className="mb-6">
-                <h3 className="font-semibold text-lg mb-3 text-gray-900">Includes:</h3>
-                <ul className="space-y-2">
+                <h3 className="font-bold text-base mb-3 text-slate-900">Includes:</h3>
+                <ul className="space-y-2 text-sm">
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-emerald-600 mr-2 flex-shrink-0 mt-0.5" />
                     <span>Internship participation certificate from IIECM</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-emerald-600 mr-2 flex-shrink-0 mt-0.5" />
                     <span>Internship duration proof</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-emerald-600 mr-2 flex-shrink-0 mt-0.5" />
                     <span>LMS access (limited)</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
-                    <span>Suitable for academic submission & credit requirements</span>
+                    <CheckCircle className="w-4 h-4 text-emerald-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <span>Suitable for academic submission &amp; credit requirements</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="bg-white p-4 rounded-lg mb-4">
-                <h4 className="font-semibold mb-2 text-gray-900">Best For:</h4>
-                <p className="text-gray-700">Students needing mandatory internship certificate, Colleges requiring short-term internships</p>
+              <div className="bg-white p-4 rounded-lg mb-4 border border-amber-200/80">
+                <h4 className="font-bold text-xs uppercase tracking-wide mb-1 text-slate-900">Best For:</h4>
+                <p className="text-slate-700 text-xs leading-relaxed">Students needing mandatory internship certificate, Colleges requiring short-term internships</p>
               </div>
 
-              <p className="text-sm text-gray-600 italic mb-6">
+              <p className="text-xs text-slate-500 italic mb-6">
                 Note: This option does not include foundation training or certifications.
               </p>
 
@@ -176,7 +177,7 @@ export default function Internships() {
                   setFormData({ ...formData, preferred_stage: 'stage1' });
                   document.getElementById('enrollment-form')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm transition shadow-xs"
               >
                 Enroll Now
               </button>
@@ -518,9 +519,9 @@ export default function Internships() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 text-lg"
+                  className="w-full bg-amber-600 hover:bg-amber-700 text-white px-7 py-3.5 rounded-lg font-semibold transition disabled:opacity-50 text-base shadow-sm hover:shadow"
                 >
-                  {submitting ? 'Submitting...' : 'Submit Inquiry'}
+                  {submitting ? 'Submitting...' : 'Submit Application'}
                 </button>
 
                 {submitMessage && (
@@ -534,51 +535,51 @@ export default function Internships() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Why Choose IIECM Internships?</h2>
+            <h2 className="text-3xl font-black text-stone-900 mb-8 text-center">Why Choose IIECM Internships?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Industry-Aligned Structure</h3>
-                  <p className="text-gray-600">Programs designed to meet current industry requirements</p>
+                  <h3 className="font-bold text-stone-900 mb-1">Industry-Aligned Structure</h3>
+                  <p className="text-stone-600 text-sm">Programs designed to meet current industry requirements</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">LMS-Based Learning</h3>
-                  <p className="text-gray-600">24/7 access to comprehensive learning platform</p>
+                  <h3 className="font-bold text-stone-900 mb-1">LMS-Based Learning</h3>
+                  <p className="text-stone-600 text-sm">24/7 access to comprehensive learning platform</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Affordable & Scalable</h3>
-                  <p className="text-gray-600">Competitive pricing with bulk enrollment discounts</p>
+                  <h3 className="font-bold text-stone-900 mb-1">Affordable & Scalable</h3>
+                  <p className="text-stone-600 text-sm">Competitive pricing with bulk enrollment discounts</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Academic Compliance</h3>
-                  <p className="text-gray-600">Suitable for institutional credit requirements</p>
+                  <h3 className="font-bold text-stone-900 mb-1">Academic Compliance</h3>
+                  <p className="text-stone-600 text-sm">Suitable for institutional credit requirements</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">IIECM Certificates</h3>
-                  <p className="text-gray-600">Industry-recognized certification upon completion</p>
+                  <h3 className="font-bold text-stone-900 mb-1">IIECM Certificates</h3>
+                  <p className="text-stone-600 text-sm">Industry-recognized certification upon completion</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Bulk Enrollment Support</h3>
-                  <p className="text-gray-600">Dedicated support for colleges and institutions</p>
+                  <h3 className="font-bold text-stone-900 mb-1">Bulk Enrollment Support</h3>
+                  <p className="text-stone-600 text-sm">Dedicated support for colleges and institutions</p>
                 </div>
               </div>
             </div>
